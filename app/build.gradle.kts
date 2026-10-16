@@ -6,9 +6,7 @@ plugins {
 android {
     namespace = "com.alaishat.mohammad.oodan"
     compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
+        version = release(37)
     }
 
     defaultConfig {
