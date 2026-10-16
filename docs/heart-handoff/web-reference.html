@@ -1,0 +1,1011 @@
+<title>عوداً عوداً</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<style>
+/* Layout: a night chamber. The heart sits on a lit stage; a narrow ledger of controls and history runs beside it (stacks on phones). Single dark look by choice. */
+:root {
+  color-scheme: dark;
+  --ink: #100d0f;
+  --ink-2: #181316;
+  --ink-3: #221b1f;
+  --line: #3a2f33;
+  --text: #ede4d8;
+  --muted: #9a8c82;
+  --brass: #c8a25e;
+  --brass-dim: #8a6f40;
+  --pale: #f6f1e7;
+  --soot: #0a0809;
+  --font-display: "Amiri", "Traditional Arabic", "Times New Roman", serif;
+  --font-body: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --step--1: 0.8125rem;
+  --step-0: 0.9375rem;
+  --step-1: 1.125rem;
+  --step-2: 1.5rem;
+  --step-3: 2rem;
+}
+html, body { height: 100%; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+}
+.wrap {
+  min-height: 100%;
+  box-sizing: border-box;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 28px;
+  display: grid;
+  grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+@media (max-width: 820px) {
+  .wrap { grid-template-columns: 1fr; }
+  .stage-col { order: -1; }
+}
+
+/* ---------- Stage ---------- */
+.stage-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.verse {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  line-height: 1.5;
+  color: var(--text);
+  text-wrap: balance;
+  margin: 0;
+}
+.verse small {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--step--1);
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.stage {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  background:
+    radial-gradient(60% 55% at 50% 45%, #2a1a1e 0%, #160f12 60%, var(--ink) 100%);
+  border: 1px solid var(--line);
+  aspect-ratio: 1 / 1;
+  max-height: 78vh;
+  width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
+}
+.stage svg { width: 100%; height: 100%; display: block; }
+.stage.shake { animation: shake 260ms ease-out; }
+@keyframes shake {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(calc(var(--sx) * 1px), calc(var(--sy) * 1px)); }
+  55% { transform: translate(calc(var(--sx) * -0.5px), calc(var(--sy) * -0.5px)); }
+  100% { transform: translate(0,0); }
+}
+.tally {
+  position: absolute;
+  inset: 12px 12px auto 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+.tally b { color: var(--text); font-weight: 600; }
+.meter {
+  height: 6px;
+  border-radius: 99px;
+  background: var(--ink-3);
+  overflow: hidden;
+  display: flex;
+}
+.meter span { display: block; height: 100%; transition: width 300ms ease; }
+.meter .w { background: var(--pale); }
+.meter .k { background: #3b3236; box-shadow: inset 0 0 0 1px #5a4d52; }
+.meter-legend {
+  display: flex; justify-content: space-between;
+  font-size: var(--step--1); color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* heart idle beat: animated on HTML layers so the lit SVG is not re-filtered every frame */
+.layer { position: absolute; inset: 0; }
+.layer svg { position: absolute; inset: 0; }
+#beat { transform-origin: 53% 58%; will-change: transform; animation: beat 1.6s ease-in-out infinite; }
+@keyframes beat {
+  0%, 60%, 100% { transform: scale(1); }
+  12% { transform: scale(1.022); }
+  24% { transform: scale(0.995); }
+  34% { transform: scale(1.012); }
+}
+#flinch { transform-origin: 53% 58%; }
+#flinch.hit { animation: flinch 320ms cubic-bezier(.2,.8,.3,1); }
+@keyframes flinch {
+  0% { transform: translate(0,0) scale(1); }
+  30% { transform: translate(calc(var(--dx) * 1px), calc(var(--dy) * 1px)) scale(0.985); }
+  100% { transform: translate(0,0) scale(1); }
+}
+
+/* ---------- Panel ---------- */
+.panel {
+  display: flex; flex-direction: column; gap: 16px;
+  min-width: 0;
+}
+.brand {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+}
+.brand h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step-3);
+  line-height: 1.1;
+  margin: 0;
+}
+.brand .src { font-size: var(--step--1); color: var(--muted); }
+
+.section {
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.label {
+  font-size: var(--step--1);
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+.shots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.shot {
+  appearance: none;
+  border-radius: 12px;
+  padding: 14px 10px 12px;
+  font: inherit;
+  cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  transition: transform 120ms ease, box-shadow 160ms ease;
+}
+.shot:active { transform: translateY(1px) scale(0.98); }
+.shot .dot { width: 22px; height: 22px; border-radius: 50%; }
+.shot .t { font-weight: 600; font-size: var(--step-1); }
+.shot .s { font-size: var(--step--1); opacity: 0.75; }
+.shot kbd {
+  font-family: var(--font-body);
+  font-size: 11px;
+  border-radius: 5px;
+  padding: 0 6px;
+  border: 1px solid currentColor;
+  opacity: 0.55;
+}
+.shot.white {
+  background: var(--pale);
+  color: #1b1416;
+  border: 1px solid var(--pale);
+}
+.shot.white .dot { background: radial-gradient(circle, #fff 45%, #d9d1c6 100%); box-shadow: 0 0 0 1px #cfc5b8; }
+.shot.black {
+  background: var(--soot);
+  color: var(--text);
+  border: 1px solid #4a3e43;
+}
+.shot.black .dot { background: radial-gradient(circle, #000 50%, #2a2326 100%); box-shadow: 0 0 0 1px #5a4d52; }
+.shot:hover { box-shadow: 0 6px 20px -8px rgba(200,162,94,.5); }
+.shot:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field-head { display: flex; justify-content: space-between; align-items: baseline; }
+.field-head output {
+  font-variant-numeric: tabular-nums;
+  color: var(--brass);
+  font-weight: 600;
+}
+input[type=range] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 22px; background: transparent; margin: 0;
+}
+input[type=range]::-webkit-slider-runnable-track { height: 4px; border-radius: 4px; background: linear-gradient(to left, var(--brass-dim), var(--ink-3)); }
+input[type=range]::-moz-range-track { height: 4px; border-radius: 4px; background: linear-gradient(to left, var(--brass-dim), var(--ink-3)); }
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+  background: var(--brass); margin-top: -7px; border: 2px solid var(--ink);
+}
+input[type=range]::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%; background: var(--brass); border: 2px solid var(--ink);
+}
+.preview-row { display: flex; align-items: center; gap: 12px; }
+.preview {
+  width: 64px; height: 64px; flex: none; border-radius: 12px;
+  background: radial-gradient(circle at 40% 35%, #a33a45, #5c1620 75%);
+  display: grid; place-items: center;
+  border: 1px solid var(--line);
+}
+.preview i { display: block; border-radius: 50%; }
+.preview-row p { margin: 0; font-size: var(--step--1); color: var(--muted); }
+
+.toolbar { display: flex; gap: 8px; flex-wrap: wrap; }
+.tool {
+  appearance: none; font: inherit; font-size: var(--step--1);
+  background: var(--ink-3); color: var(--text);
+  border: 1px solid var(--line); border-radius: 9px;
+  padding: 7px 11px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.tool:hover:not(:disabled) { border-color: var(--brass-dim); }
+.tool:disabled { opacity: 0.4; cursor: default; }
+.tool kbd { font-family: var(--font-body); font-size: 11px; color: var(--muted); direction: ltr; }
+.tool.danger.armed { background: #4a1a1f; border-color: #8a3540; }
+
+/* history */
+.history-head { display: flex; justify-content: space-between; align-items: baseline; }
+.history-head span { font-size: var(--step--1); color: var(--muted); font-variant-numeric: tabular-nums; }
+.history {
+  list-style: none; margin: 0; padding: 0;
+  max-height: 300px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 2px;
+  scrollbar-width: thin; scrollbar-color: var(--line) transparent;
+}
+.history li button {
+  width: 100%;
+  appearance: none; font: inherit; text-align: start;
+  background: transparent; color: var(--text);
+  border: 0; border-radius: 8px;
+  padding: 6px 8px;
+  display: grid; grid-template-columns: 22px 1fr auto; gap: 10px; align-items: center;
+  cursor: pointer;
+  font-size: var(--step--1);
+}
+.history li button:hover { background: var(--ink-3); }
+.history li.undone button { opacity: 0.38; }
+.history li.undone .h-name { text-decoration: line-through; text-decoration-color: var(--muted); }
+.history li.current button { background: var(--ink-3); box-shadow: inset 0 0 0 1px var(--brass-dim); }
+.h-chip { width: 14px; height: 14px; border-radius: 50%; justify-self: center; }
+.h-chip.white { background: var(--pale); }
+.h-chip.black { background: #000; box-shadow: 0 0 0 1px #5a4d52; }
+.h-meta { color: var(--muted); font-variant-numeric: tabular-nums; direction: ltr; }
+.h-tag { color: var(--brass-dim); font-size: 11px; margin-inline-start: 6px; }
+.empty { color: var(--muted); font-size: var(--step--1); padding: 6px 8px; margin: 0; }
+.hint { font-size: var(--step--1); color: var(--muted); margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  #beat { animation: none; }
+  #flinch.hit, .stage.shake { animation: none; }
+}
+</style>
+
+<div class="wrap" dir="rtl">
+  <aside class="panel">
+    <div class="brand">
+      <h1>عوداً عوداً</h1>
+      <span class="src">صحيح مسلم · ١٤٤</span>
+    </div>
+
+    <section class="section" aria-label="الرمي">
+      <div class="label">ارمِ نكتة</div>
+      <div class="shots">
+        <button class="shot white" id="btnWhite" type="button" aria-label="نكتة بيضاء">
+          <span class="dot"></span>
+          <span class="t">بيضاء</span>
+          <span class="s">أنكرها</span>
+          <kbd>W</kbd>
+        </button>
+        <button class="shot black" id="btnBlack" type="button" aria-label="نكتة سوداء">
+          <span class="dot"></span>
+          <span class="t">سوداء</span>
+          <span class="s">أُشرِبها</span>
+          <kbd>B</kbd>
+        </button>
+      </div>
+
+      <div class="field">
+        <div class="field-head"><label class="label" for="size">حجم النكتة</label><output id="sizeOut">14</output></div>
+        <input type="range" id="size" min="3" max="40" step="1" value="14">
+      </div>
+      <div class="field">
+        <div class="field-head"><label class="label" for="intensity">شدّة النكتة</label><output id="intOut">80٪</output></div>
+        <input type="range" id="intensity" min="10" max="100" step="5" value="80">
+      </div>
+      <div class="preview-row">
+        <div class="preview" aria-hidden="true"><i id="pv"></i></div>
+        <p>المعاينة على لون عضلة القلب. الموضع يُختار عشوائياً عند كل رمية.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-label="السجل">
+      <div class="history-head">
+        <div class="label">السجل</div>
+        <span id="histCount">0</span>
+      </div>
+      <div class="toolbar">
+        <button class="tool" id="undo" type="button">تراجع <kbd>Ctrl Z</kbd></button>
+        <button class="tool" id="redo" type="button">إعادة <kbd>Ctrl ⇧ Z</kbd></button>
+        <button class="tool" id="sound" type="button" aria-pressed="true">الصوت: يعمل</button>
+        <button class="tool danger" id="clear" type="button">مسح القلب</button>
+      </div>
+      <ol class="history" id="history" reversed></ol>
+      <p class="hint">اضغط على أي رمية للرجوع إلى حالة القلب عندها.</p>
+    </section>
+  </aside>
+
+  <main class="stage-col">
+    <p class="verse">«تُعرَض الفتن على القلوب كالحصير عوداً عوداً، فأيّ قلبٍ أُشرِبها نُكِتَ فيه نكتةٌ سوداء، وأيّ قلبٍ أنكرها نُكِتَ فيه نكتةٌ بيضاء»
+      <small>حذيفة بن اليمان رضي الله عنه</small></p>
+
+    <div class="stage" id="stage">
+      <div class="tally"><span>بيضاء <b id="cW">0</b></span><span>سوداء <b id="cB">0</b></span></div>
+      <div class="layer" id="beat"><div class="layer" id="flinch">
+        <svg id="svg" viewBox="0 0 400 460" role="img" aria-label="قلب تشريحي تُرمى عليه النكت">
+          <defs id="hdefs">
+            <radialGradient id="gMuscle" cx="0.36" cy="0.3" r="0.85">
+              <stop offset="0" stop-color="#a8323a"/>
+              <stop offset="0.5" stop-color="#7a1a24"/>
+              <stop offset="1" stop-color="#3c0a12"/>
+            </radialGradient>
+            <radialGradient id="gAtrium" cx="0.4" cy="0.3" r="0.9">
+              <stop offset="0" stop-color="#963440"/>
+              <stop offset="1" stop-color="#4c1220"/>
+            </radialGradient>
+            <linearGradient id="gArtery" x1="0" y1="0" x2="1" y2="0.6">
+              <stop offset="0" stop-color="#c8423f"/>
+              <stop offset="1" stop-color="#7e1e26"/>
+            </linearGradient>
+            <linearGradient id="gVein" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#3a427a"/>
+              <stop offset="0.45" stop-color="#5b66a3"/>
+              <stop offset="1" stop-color="#2d3463"/>
+            </linearGradient>
+            <linearGradient id="gPulm" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0" stop-color="#4a4e8e"/>
+              <stop offset="1" stop-color="#7377b6"/>
+            </linearGradient>
+            <radialGradient id="gWhite">
+              <stop offset="0" stop-color="#fffdf8" stop-opacity="1"/>
+              <stop offset="0.55" stop-color="#fbf6ec" stop-opacity="0.96"/>
+              <stop offset="0.8" stop-color="#f3ece0" stop-opacity="0.55"/>
+              <stop offset="1" stop-color="#f3ece0" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="gBlack">
+              <stop offset="0" stop-color="#050304" stop-opacity="1"/>
+              <stop offset="0.55" stop-color="#070405" stop-opacity="0.96"/>
+              <stop offset="0.8" stop-color="#0d0709" stop-opacity="0.55"/>
+              <stop offset="1" stop-color="#0d0709" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="10"/></filter>
+            <filter id="cast" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="4"/></filter>
+            <filter id="blur1" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.2"/></filter>
+            <!-- lighting from a real height map: luminance = height, alpha = silhouette -->
+            <filter id="hmBlur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"/></filter>
+            <filter id="shade" filterUnits="userSpaceOnUse" x="-10" y="-10" width="420" height="480" color-interpolation-filters="linearRGB">
+              <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="lum"/>
+              <feGaussianBlur in="lum" stdDeviation="1.6" result="hb"/>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="ab"/>
+              <feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="3" seed="4" result="nz"/>
+              <feColorMatrix in="nz" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 0" result="nzA"/>
+              <feComposite in="hb" in2="ab" operator="arithmetic" k2="0.55" k3="0.4" result="h1"/>
+              <feComposite in="h1" in2="nzA" operator="arithmetic" k2="1" k3="0.025" result="height"/>
+              <feDiffuseLighting in="height" surfaceScale="16" diffuseConstant="1" lighting-color="#fff" result="diff">
+                <feDistantLight azimuth="225" elevation="42"/>
+              </feDiffuseLighting>
+              <feComponentTransfer in="diff" result="diffT">
+                <feFuncR type="linear" slope="1.25" intercept="0.06"/>
+                <feFuncG type="linear" slope="1.25" intercept="0.06"/>
+                <feFuncB type="linear" slope="1.25" intercept="0.06"/>
+              </feComponentTransfer>
+              <feGaussianBlur in="diffT" stdDeviation="0.7" result="diffS"/>
+              <feComposite in="diffS" in2="SourceAlpha" operator="in"/>
+            </filter>
+            <filter id="spec" filterUnits="userSpaceOnUse" x="-10" y="-10" width="420" height="480" color-interpolation-filters="linearRGB">
+              <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="lum"/>
+              <feGaussianBlur in="lum" stdDeviation="1.6" result="hb"/>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="ab"/>
+              <feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="3" seed="4" result="nz"/>
+              <feColorMatrix in="nz" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 0" result="nzA"/>
+              <feComposite in="hb" in2="ab" operator="arithmetic" k2="0.55" k3="0.4" result="h1"/>
+              <feComposite in="h1" in2="nzA" operator="arithmetic" k2="1" k3="0.025" result="height"/>
+              <feSpecularLighting in="height" surfaceScale="16" specularConstant="1.1" specularExponent="28" lighting-color="#fff4ec" result="sp">
+                <feDistantLight azimuth="225" elevation="40"/>
+              </feSpecularLighting>
+              <feGaussianBlur in="sp" stdDeviation="0.6" result="spS"/>
+              <feComposite in="spS" in2="SourceAlpha" operator="in" result="spIn"/>
+              <feColorMatrix in="spIn" type="matrix" values="0.8 0 0 0 0  0 0.8 0 0 0  0 0 0.8 0 0  0 0 0 0.8 0"/>
+            </filter>
+            <radialGradient id="hDome" cx="0.44" cy="0.42" r="0.62">
+              <stop offset="0" stop-color="#fff"/>
+              <stop offset="0.55" stop-color="#cfcfcf"/>
+              <stop offset="1" stop-color="#3a3a3a"/>
+            </radialGradient>
+            <radialGradient id="hLobe" cx="0.45" cy="0.4" r="0.6">
+              <stop offset="0" stop-color="#d8d8d8"/>
+              <stop offset="1" stop-color="#3a3a3a"/>
+            </radialGradient>
+            <clipPath id="clipHeart"></clipPath>
+          </defs>
+          <ellipse cx="225" cy="442" rx="125" ry="13" fill="#000" opacity="0.6" filter="url(#soft)"/>
+          <g id="lit">
+            <g id="anatomy"></g>
+            <g id="baseDetail"></g>
+            <g id="dots" clip-path="url(#clipHeart)"></g>
+            <g id="relief"></g>
+          </g>
+        </svg>
+        <svg id="shadeSvg" class="layer" viewBox="0 0 400 460" aria-hidden="true" style="mix-blend-mode:multiply;pointer-events:none"><defs></defs></svg>
+        <svg id="specSvg" class="layer" viewBox="0 0 400 460" aria-hidden="true" style="mix-blend-mode:screen;pointer-events:none"><defs></defs></svg>
+      </div></div>
+      <svg id="fxsvg" class="layer" viewBox="0 0 400 460" overflow="visible" aria-hidden="true" style="pointer-events:none">
+        <defs id="fxdefs"></defs>
+        <g id="fx"></g>
+      </svg>
+    </div>
+
+    <div class="meter" aria-hidden="true"><span class="w" id="mW" style="width:50%"></span><span class="k" id="mB" style="width:50%"></span></div>
+    <div class="meter-legend"><span id="pW">٥٠٪ بيضاء</span><span id="pB">٥٠٪ سوداء</span></div>
+  </main>
+</div>
+
+<script>
+(() => {
+  const NS = 'http://www.w3.org/2000/svg';
+  const $ = id => document.getElementById(id);
+  const svg = $('svg'), dotsG = $('dots'), fx = $('fx'), stage = $('stage'), flinch = $('flinch');
+  const fxDefs = $('fxdefs');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const KEY = 'oodan-heart-v1';
+  const ar = n => n.toLocaleString('ar-SY');
+
+  // ================= anatomy =================
+  function mk(tag, attrs, parent) {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) if (attrs[k] != null) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+  const f = v => +v.toFixed(2);
+  function bez(p, t) {
+    const u = 1 - t;
+    return [u*u*u*p[0][0] + 3*u*u*t*p[1][0] + 3*u*t*t*p[2][0] + t*t*t*p[3][0],
+            u*u*u*p[0][1] + 3*u*u*t*p[1][1] + 3*u*t*t*p[2][1] + t*t*t*p[3][1]];
+  }
+  function bezD(p, t) {
+    const u = 1 - t;
+    const x = 3*u*u*(p[1][0]-p[0][0]) + 6*u*t*(p[2][0]-p[1][0]) + 3*t*t*(p[3][0]-p[2][0]);
+    const y = 3*u*u*(p[1][1]-p[0][1]) + 6*u*t*(p[2][1]-p[1][1]) + 3*t*t*(p[3][1]-p[2][1]);
+    const l = Math.hypot(x, y) || 1;
+    return [x / l, y / l];
+  }
+  // tapered tube along a poly-bezier; segs = [[p0,p1,p2,p3, w0, w1], ...]
+  function tube(segs, wobble = 0) {
+    const L = [], R = [];
+    segs.forEach((s, si) => {
+      const p = s.slice(0, 4), n = 28;
+      for (let i = si ? 1 : 0; i <= n; i++) {
+        const t = i / n, c = bez(p, t), d = bezD(p, t);
+        const w = (s[4] + (s[5] - s[4]) * t) / 2 * (1 + wobble * Math.sin(t * 9 + si * 2));
+        L.push([c[0] - d[1] * w, c[1] + d[0] * w]);
+        R.push([c[0] + d[1] * w, c[1] - d[0] * w]);
+      }
+    });
+    const last = segs[segs.length - 1], first = segs[0];
+    const e = bez(last.slice(0, 4), 1), ed = bezD(last.slice(0, 4), 1), ew = last[5] * 0.62;
+    const s0 = bez(first.slice(0, 4), 0), sd = bezD(first.slice(0, 4), 0), sw = first[4] * 0.62;
+    let d = `M${f(L[0][0])} ${f(L[0][1])}`;
+    for (let i = 1; i < L.length; i++) d += `L${f(L[i][0])} ${f(L[i][1])}`;
+    d += `Q${f(e[0] + ed[0] * ew)} ${f(e[1] + ed[1] * ew)} ${f(R[R.length - 1][0])} ${f(R[R.length - 1][1])}`;
+    for (let i = R.length - 2; i >= 0; i--) d += `L${f(R[i][0])} ${f(R[i][1])}`;
+    d += `Q${f(s0[0] - sd[0] * sw)} ${f(s0[1] - sd[1] * sw)} ${f(L[0][0])} ${f(L[0][1])}Z`;
+    return d;
+  }
+  // closed Catmull-Rom → cubic
+  function smoothClosed(P) {
+    const n = P.length;
+    let d = `M${f(P[0][0])} ${f(P[0][1])}`;
+    for (let i = 0; i < n; i++) {
+      const p0 = P[(i - 1 + n) % n], p1 = P[i], p2 = P[(i + 1) % n], p3 = P[(i + 2) % n];
+      d += `C${f(p1[0] + (p2[0] - p0[0]) / 6)} ${f(p1[1] + (p2[1] - p0[1]) / 6)} ${f(p2[0] - (p3[0] - p1[0]) / 6)} ${f(p2[1] - (p3[1] - p1[1]) / 6)} ${f(p2[0])} ${f(p2[1])}`;
+    }
+    return d + 'Z';
+  }
+  // crinkled lobe (auricles)
+  function lobe(cx, cy, rx, ry, rot, amp, freq, seed) {
+    const P = [], N = 64, cr = Math.cos(rot), sr = Math.sin(rot);
+    for (let i = 0; i < N; i++) {
+      const a = i / N * Math.PI * 2;
+      const k = 1 + amp * Math.sin(freq * a + seed) + amp * 0.45 * Math.sin(freq * 2.3 * a + seed * 1.7);
+      const x = Math.cos(a) * rx * k, y = Math.sin(a) * ry * k;
+      P.push([cx + x * cr - y * sr, cy + x * sr + y * cr]);
+    }
+    return smoothClosed(P);
+  }
+
+  // muscle outline: ventricles, apex low and to the viewer's right
+  const BODY = smoothClosed([
+    [146,186],[118,206],[104,240],[102,280],[112,320],[136,360],[172,396],[214,423],
+    [252,438],[278,434],[298,412],[312,378],[322,336],[328,290],[328,248],[320,214],
+    [300,190],[268,180],[236,182],[206,178],[176,178]
+  ]);
+
+  // back → front. Every shape here is part of "the heart" and takes stains.
+  const SHAPES = [
+    { id: 'rpa',   d: tube([[[258,152],[232,142],[200,137],[166,142], 21, 18]]), fill: 'url(#gPulm)' },
+    { id: 'svc',   d: tube([[[158,226],[158,160],[156,100],[154,26], 32, 28]], 0.02), fill: 'url(#gVein)' },
+    { id: 'ivc',   d: tube([[[132,326],[124,346],[115,366],[106,388], 30, 25]]), fill: 'url(#gVein)' },
+    { id: 'pv1',   d: tube([[[318,206],[328,203],[340,201],[352,200], 14, 12]]), fill: '#7a2d3d' },
+    { id: 'pv2',   d: tube([[[322,230],[334,230],[346,231],[358,233], 13, 11]]), fill: '#7a2d3d' },
+    { id: 'bct',   d: tube([[[238,74],[234,52],[228,32],[223,8], 20, 15]]), fill: 'url(#gArtery)' },
+    { id: 'lcca',  d: tube([[[264,66],[265,46],[266,28],[267,6], 13, 11]]), fill: 'url(#gArtery)' },
+    { id: 'lsa',   d: tube([[[292,72],[300,52],[309,34],[321,14], 15, 12]]), fill: 'url(#gArtery)' },
+    { id: 'aorta', d: tube([
+        [[212,214],[203,132],[218,70],[262,64], 41, 35],
+        [[262,64],[303,58],[327,92],[325,150], 35, 32],
+        [[325,150],[324,180],[324,205],[324,232], 32, 30]]), fill: 'url(#gArtery)' },
+    { id: 'lpa',   d: tube([[[274,148],[304,132],[338,132],[372,141], 22, 17]]), fill: 'url(#gPulm)' },
+    { id: 'ra',    d: lobe(124, 242, 38, 54, -0.12, 0.022, 7, 1.3), fill: 'url(#gAtrium)' },
+    { id: 'body',  d: BODY, fill: 'url(#gMuscle)' },
+    { id: 'la',    d: lobe(311, 200, 30, 15, -0.42, 0.035, 6, 0.4), fill: 'url(#gAtrium)' },
+    { id: 'trunk', d: tube([[[250,226],[243,188],[250,160],[277,146], 39, 33]]), fill: 'url(#gPulm)' },
+  ];
+  const MOTTLE = [
+    { cx: 292, cy: 360, rx: 46, ry: 70, c: '#3a0b1c', o: 0.35 },
+    { cx: 150, cy: 300, rx: 36, ry: 60, c: '#4a0c18', o: 0.25 },
+    { cx: 205, cy: 250, rx: 60, ry: 45, c: '#c24a4c', o: 0.18 },
+  ];
+  const idx = Object.fromEntries(SHAPES.map((s, i) => [s.id, i]));
+
+  const hdefs = $('hdefs'), anatomy = $('anatomy'), baseDetail = $('baseDetail'), relief = $('relief');
+  mk('filter', { id: 'blur18', x: '-50%', y: '-50%', width: '200%', height: '200%' }, hdefs).appendChild(mk('feGaussianBlur', { stdDeviation: 18 }));
+  const clip = $('clipHeart');
+  SHAPES.forEach(s => {
+    s.el = mk('path', { id: 'h-' + s.id, d: s.d, fill: s.fill }, anatomy);
+    mk('use', { href: '#h-' + s.id }, clip);
+  });
+
+  // mask that hides everything at index >= from (so a shadow/edge only shows on what's behind)
+  function behindMask(name, from) {
+    const m = mk('mask', { id: name, maskUnits: 'userSpaceOnUse', x: -20, y: -20, width: 440, height: 500 }, hdefs);
+    mk('rect', { x: -20, y: -20, width: 440, height: 500, fill: '#fff' }, m);
+    for (let i = from; i < SHAPES.length; i++) mk('path', { d: SHAPES[i].d, fill: '#000' }, m);
+    return `url(#${name})`;
+  }
+
+  // --- surface details: fat in the grooves, coronary vessels, branches ---
+  const FAT = '#d4ad6a', ART = '#b02f37', VEIN = '#3f3c74';
+  const grooves = [
+    { c: [[262,196],[252,262],[247,332],[262,430]], fat: [16, 5], art: [4.6, 1.6], vein: [4.2, 1.4], vOff: 7 },  // anterior interventricular
+    { c: [[214,190],[178,202],[144,238],[128,302]], fat: [14, 9], art: [4.6, 2.8] },                                // right coronary (AV groove)
+  ];
+  const branches = [
+    [[[255,270],[275,282],[296,298],[312,322]], 2.6, 0.8],
+    [[[251,330],[266,344],[282,362],[293,386]], 2.2, 0.7],
+    [[[254,232],[276,238],[298,246],[318,260]], 2.2, 0.7],
+    [[[160,236],[180,252],[195,274],[202,302]], 2.0, 0.7],
+    [[[146,262],[164,280],[172,300],[176,324]], 1.8, 0.6],
+    [[[132,300],[150,322],[170,346],[196,368]], 2.2, 0.8],
+    [[[250,300],[236,318],[222,334],[206,346]], 1.6, 0.6],
+  ];
+  const fatPatches = [lobe(198, 191, 30, 7, 0.1, 0.06, 5, 2), lobe(286, 210, 16, 5, -0.3, 0.06, 4, 1)];
+  const offsetC = (c, k) => c.map(p => [p[0] + k, p[1]]);
+
+  const detailPaths = []; // {d, kind}
+  grooves.forEach(g => {
+    detailPaths.push({ d: tube([[...g.c, ...g.fat]], 0.12), kind: 'fat' });
+    if (g.vein) detailPaths.push({ d: tube([[...offsetC(g.c, g.vOff), ...g.vein]]), kind: 'vein' });
+    detailPaths.push({ d: tube([[...g.c, ...g.art]]), kind: 'art' });
+  });
+  fatPatches.forEach(d => detailPaths.push({ d, kind: 'fat' }));
+  branches.forEach(b => detailPaths.push({ d: tube([[...b[0], b[1], b[2]]]), kind: 'art' }));
+
+  const onBody = behindMask('mBodySurface', idx.la); // details live on the ventricles, under auricle + trunk
+  mk('path', { d: BODY }, mk('clipPath', { id: 'clipBodyOnly' }, hdefs));
+  const mottleWrap = mk('g', { mask: onBody, 'clip-path': 'url(#clipBodyOnly)' }, baseDetail);
+  const mottleG = mk('g', { filter: 'url(#blur18)' }, mottleWrap);
+  MOTTLE.forEach(m => mk('ellipse', { cx: m.cx, cy: m.cy, rx: m.rx, ry: m.ry, fill: m.c, opacity: m.o }, mottleG));
+  const baseG = mk('g', { mask: onBody }, baseDetail);
+  detailPaths.forEach(p => mk('path', { d: p.d, fill: p.kind === 'fat' ? FAT : p.kind === 'art' ? ART : VEIN, opacity: p.kind === 'fat' ? 0.38 : 1, filter: p.kind === 'fat' ? 'url(#blur1)' : null }, baseG));
+
+  // --- relief layer ABOVE the stains: neutral shadows + highlights, so form survives full white or full black ---
+  const groovesG = mk('g', { mask: onBody, fill: 'none', 'stroke-linecap': 'round' }, relief);
+  grooves.forEach(g => {
+    const d = `M${g.c[0]}C${g.c[1]} ${g.c[2]} ${g.c[3]}`;
+    mk('path', { d, stroke: '#140205', 'stroke-opacity': 0.12, 'stroke-width': 18, filter: 'url(#cast)', transform: 'translate(2 1)' }, groovesG);
+  });
+  const relG = mk('g', { mask: onBody }, relief);
+  detailPaths.forEach(p => {
+    const sh = p.kind === 'fat' ? 0.08 : 0.22;
+    mk('path', { d: p.d, fill: '#1a0306', opacity: sh, transform: 'translate(1.2 1.8)', filter: 'url(#blur1)' }, relG);
+    // tinted memory of the vessel: reads as colour on white, disappears on black (highlight carries it there)
+    const tint = mk('path', { d: p.d, fill: p.kind === 'fat' ? '#c99a48' : p.kind === 'art' ? '#a3262f' : '#3b3570', opacity: p.kind === 'fat' ? 0.32 : 0.55 }, relG);
+    tint.style.mixBlendMode = 'multiply';
+    mk('path', { d: p.d, fill: '#fff6ea', opacity: p.kind === 'fat' ? 0.06 : 0.14, transform: 'translate(-0.8 -1.1)', filter: 'url(#blur1)' }, relG);
+  });
+
+  // muscle striations: fine fibres sweeping from base toward the apex, drawn above stains
+  const fibres = [];
+  const fib = mk('g', { mask: onBody, fill: 'none', 'stroke-linecap': 'round' }, relief);
+  for (let i = 0; i < 34; i++) {
+    const t = i / 33;
+    const x0 = 122 + t * 200 + (Math.random() - 0.5) * 6, y0 = 196 + Math.sin(t * Math.PI) * -8;
+    const cx = x0 + (262 - x0) * 0.35 - 18 + t * 20, cy = 320 + Math.sin(t * 3) * 10;
+    const x1 = 262 + (t - 0.5) * 60, y1 = 432 - Math.abs(t - 0.5) * 40;
+    const d = `M${f(x0)} ${f(y0)}Q${f(cx)} ${f(cy)} ${f(x1)} ${f(y1)}`;
+    fibres.push(d);
+    mk('path', { d, stroke: '#1a0306', 'stroke-opacity': 0.02 + Math.random() * 0.025, 'stroke-width': 1.5 + Math.random() * 2, filter: 'url(#blur1)' }, fib);
+    if (i % 3 === 0) mk('path', { d, stroke: '#fff4ea', 'stroke-opacity': 0.025, 'stroke-width': 0.7, transform: 'translate(-1 -0.5)' }, fib);
+  }
+
+  // cast shadows, outlines and rim light for every shape, visible only on what lies behind it
+  const castG = mk('g', { 'clip-path': 'url(#clipHeart)' }, relief);
+  SHAPES.forEach((s, i) => {
+    if (i === 0) return;
+    const mBehind = behindMask('mb-' + s.id, i);       // excludes this shape and everything in front
+    const mFront = behindMask('mf-' + s.id, i + 1);    // excludes only shapes in front
+    mk('path', { d: s.d, fill: '#120205', opacity: 0.55, transform: 'translate(4 6)', filter: 'url(#cast)', mask: mBehind }, castG);
+    const g = mk('g', { mask: mFront }, relief);
+    mk('path', { d: s.d, fill: 'none', stroke: '#1c0307', 'stroke-opacity': 0.4, 'stroke-width': 1 }, g);
+    mk('path', { d: s.d, fill: 'none', stroke: '#fff3ea', 'stroke-opacity': 0.08, 'stroke-width': 1.2, transform: 'translate(-0.9 -0.9)' }, g);
+  });
+  mk('path', { d: SHAPES[0].d, fill: 'none', stroke: '#1c0307', 'stroke-opacity': 0.55, 'stroke-width': 1.3, mask: behindMask('mf-rpa', 1) }, relief);
+
+  // ================= height map (lit once, laid over colour + stains) =================
+  function buildHeight(host, pre) {
+    const defs = host.querySelector('defs');
+    const m = mk('mask', { id: pre + 'surf', maskUnits: 'userSpaceOnUse', x: -20, y: -20, width: 440, height: 500 }, defs);
+    mk('path', { d: BODY, fill: '#fff' }, m);
+    for (let i = idx.la; i < SHAPES.length; i++) mk('path', { d: SHAPES[i].d, fill: '#000' }, m);
+    const g = mk('g', { filter: `url(#${pre === 'sh' ? 'shade' : 'spec'})` }, host);
+    SHAPES.forEach(sh => {
+      const fill = sh.id === 'body' ? 'url(#hDome)' : (sh.id === 'ra' || sh.id === 'la') ? 'url(#hLobe)' : '#6a6a6a';
+      mk('path', { d: sh.d, fill }, g);
+    });
+    const surf = mk('g', { mask: `url(#${pre}surf)` }, g);
+    // grooves are real valleys
+    const gv = mk('g', { fill: 'none', 'stroke-linecap': 'round', filter: 'url(#hmBlur)' }, surf);
+    grooves.forEach(gr => mk('path', { d: `M${gr.c[0]}C${gr.c[1]} ${gr.c[2]} ${gr.c[3]}`, stroke: '#000', 'stroke-opacity': 0.55, 'stroke-width': 20 }, gv));
+    // fibres: faint ridges
+    fibres.forEach(d => mk('path', { d, fill: 'none', stroke: '#fff', 'stroke-opacity': 0.07, 'stroke-width': 2.4 }, surf));
+    // fat lumps and vessels sit proud of the surface
+    detailPaths.forEach(p => mk('path', { d: p.d, fill: '#fff', opacity: p.kind === 'fat' ? 0.28 : 0.6 }, surf));
+  }
+  buildHeight($('shadeSvg'), 'sh');
+  buildHeight($('specSvg'), 'sp');
+
+  // ================= state =================
+  let entries = [];   // {id,color,x,y,r,a,t,sample?}
+  let cursor = 0;     // number of active entries
+  let soundOn = true;
+
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify({ entries, cursor, soundOn,
+      size: $('size').value, intensity: $('intensity').value })); } catch (e) {}
+  }
+  function load() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (!raw) return false;
+      const s = JSON.parse(raw);
+      if (!Array.isArray(s.entries)) return false;
+      entries = s.entries; cursor = Math.min(s.cursor ?? entries.length, entries.length);
+      soundOn = s.soundOn !== false;
+      if (s.size) $('size').value = s.size;
+      if (s.intensity) $('intensity').value = s.intensity;
+      return true;
+    } catch (e) { return false; }
+  }
+
+  // ---------- geometry ----------
+  const pt = (x, y) => {
+    if (window.DOMPoint) return new DOMPoint(x, y);
+    const p = svg.createSVGPoint(); p.x = x; p.y = y; return p;
+  };
+  const inAny = (x, y) => { const p = pt(x, y); try { return SHAPES.some(sh => sh.el.isPointInFill(p)); } catch (e) { return true; } };
+  function randomSpot(r) {
+    const m = Math.min(r * 0.45, 8);
+    for (let i = 0; i < 400; i++) {
+      const x = 80 + Math.random() * 300, y = 4 + Math.random() * 436;
+      if (inAny(x, y)) return { x, y };
+    }
+    return { x: 220, y: 300 };
+  }
+
+  // ---------- dots ----------
+  function makeDot(e) {
+    const g = document.createElementNS(NS, 'g');
+    g.setAttribute('transform', `translate(${e.x} ${e.y})`);
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('r', e.r);
+    c.setAttribute('fill', e.color === 'white' ? 'url(#gWhite)' : 'url(#gBlack)');
+    c.setAttribute('opacity', e.a);
+    g.appendChild(c);
+    g.dataset.id = e.id;
+    return g;
+  }
+  function renderDots() {
+    dotsG.replaceChildren(...entries.slice(0, cursor).map(makeDot));
+  }
+
+  // ---------- UI ----------
+  function renderUI() {
+    const active = entries.slice(0, cursor);
+    const w = active.filter(e => e.color === 'white').length, b = active.length - w;
+    $('cW').textContent = ar(w); $('cB').textContent = ar(b);
+    const pw = active.length ? Math.round(100 * w / active.length) : 50;
+    $('mW').style.width = pw + '%'; $('mB').style.width = (100 - pw) + '%';
+    $('pW').textContent = `${ar(pw)}٪ بيضاء`; $('pB').textContent = `${ar(100 - pw)}٪ سوداء`;
+    $('undo').disabled = cursor === 0;
+    $('redo').disabled = cursor === entries.length;
+    $('histCount').textContent = `${ar(cursor)} / ${ar(entries.length)}`;
+
+    const list = $('history');
+    if (!entries.length) {
+      list.innerHTML = '<li><p class="empty">القلب نقيّ. ارمِ أول نكتة.</p></li>';
+      return;
+    }
+    const frag = document.createDocumentFragment();
+    for (let i = entries.length - 1; i >= 0; i--) {
+      const e = entries[i];
+      const li = document.createElement('li');
+      if (i >= cursor) li.classList.add('undone');
+      if (i === cursor - 1) li.classList.add('current');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      const time = new Date(e.t).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      btn.innerHTML = `<span class="h-chip ${e.color}"></span>
+        <span><span class="h-name">${ar(i + 1)}. ${e.color === 'white' ? 'بيضاء' : 'سوداء'}</span>${e.sample ? '<span class="h-tag">مثال</span>' : ''}</span>
+        <span class="h-meta">r${Math.round(e.r)} · ${Math.round(e.a * 100)}% · ${time}</span>`;
+      btn.title = 'الرجوع إلى هذه الحالة';
+      btn.addEventListener('click', () => jumpTo(i + 1));
+      li.appendChild(btn);
+      frag.appendChild(li);
+    }
+    list.replaceChildren(frag);
+  }
+
+  function updatePreview() {
+    const r = +$('size').value, a = +$('intensity').value / 100;
+    $('sizeOut').textContent = ar(r);
+    $('intOut').textContent = `${ar(Math.round(a * 100))}٪`;
+    const pv = $('pv');
+    const d = Math.min(56, r * 2 * 1.3);
+    pv.style.width = pv.style.height = d + 'px';
+    pv.style.opacity = a;
+    pv.style.background = lastColor === 'white'
+      ? 'radial-gradient(circle, #fffdf8 0%, #fbf6ec 55%, rgba(243,236,224,.55) 80%, rgba(243,236,224,0) 100%)'
+      : 'radial-gradient(circle, #000 0%, #050304 55%, rgba(13,7,9,.55) 80%, rgba(13,7,9,0) 100%)';
+  }
+  let lastColor = 'white';
+
+  // ---------- history ops ----------
+  function jumpTo(n) { cursor = Math.max(0, Math.min(entries.length, n)); renderDots(); renderUI(); save(); }
+  const undo = () => { if (cursor > 0) jumpTo(cursor - 1); };
+  const redo = () => { if (cursor < entries.length) jumpTo(cursor + 1); };
+
+  // ---------- sound ----------
+  let actx = null;
+  function thud(color) {
+    if (!soundOn) return;
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      const t = actx.currentTime;
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(color === 'white' ? 180 : 110, t);
+      o.frequency.exponentialRampToValueAtTime(color === 'white' ? 70 : 45, t + 0.18);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.5, t + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.28);
+      o.connect(g).connect(actx.destination);
+      o.start(t); o.stop(t + 0.3);
+      // whoosh tick
+      const n = actx.createBufferSource(), buf = actx.createBuffer(1, actx.sampleRate * 0.05, actx.sampleRate);
+      const ch = buf.getChannelData(0);
+      for (let i = 0; i < ch.length; i++) ch[i] = (Math.random() * 2 - 1) * (1 - i / ch.length);
+      const ng = actx.createGain(); ng.gain.value = 0.12;
+      n.buffer = buf; n.connect(ng).connect(actx.destination); n.start(t);
+    } catch (e) {}
+  }
+  function whoosh() {
+    if (!soundOn) return;
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      const t = actx.currentTime, dur = 0.22;
+      const buf = actx.createBuffer(1, actx.sampleRate * dur, actx.sampleRate);
+      const ch = buf.getChannelData(0);
+      for (let i = 0; i < ch.length; i++) ch[i] = (Math.random() * 2 - 1) * Math.sin(Math.PI * i / ch.length);
+      const src = actx.createBufferSource(), f = actx.createBiquadFilter(), g = actx.createGain();
+      f.type = 'bandpass'; f.frequency.setValueAtTime(600, t); f.frequency.exponentialRampToValueAtTime(2400, t + dur); f.Q.value = 1.2;
+      g.gain.value = 0.08;
+      src.buffer = buf; src.connect(f).connect(g).connect(actx.destination); src.start(t);
+    } catch (e) {}
+  }
+
+  // ---------- arrow ----------
+  const el = mk;
+  function makeArrow(color) {
+    const g = el('g', {});
+    const fletch = color === 'white' ? '#f6f1e7' : '#111';
+    const fStroke = color === 'white' ? '#bfb4a4' : '#4a3e43';
+    // shaft: tip at (0,0), pointing +x
+    el('line', { x1: -150, y1: 0, x2: -8, y2: 0, stroke: '#7a5a34', 'stroke-width': 3.2, 'stroke-linecap': 'round' }, g);
+    el('line', { x1: -150, y1: -0.8, x2: -8, y2: -0.8, stroke: '#c8a25e', 'stroke-opacity': 0.55, 'stroke-width': 1 }, g);
+    el('path', { d: 'M 0 0 L -16 -6 L -12 0 L -16 6 Z', fill: '#d9dcdf', stroke: '#6b7076', 'stroke-width': 0.8 }, g);
+    el('path', { d: 'M -128 0 L -150 -11 L -160 -11 L -142 0 Z', fill: fletch, stroke: fStroke, 'stroke-width': 0.8 }, g);
+    el('path', { d: 'M -128 0 L -150 11 L -160 11 L -142 0 Z', fill: fletch, stroke: fStroke, 'stroke-width': 0.8 }, g);
+    el('rect', { x: -164, y: -2, width: 6, height: 4, rx: 1, fill: '#3a2a1a' }, g);
+    return g;
+  }
+  const easeIn = t => t * t * (1.4 - 0.4 * t);
+  const easeOutBack = t => { const c = 1.9; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+
+  function animate(dur, step, done) {
+    const t0 = performance.now();
+    function f(now) {
+      const p = Math.min(1, (now - t0) / dur);
+      step(p);
+      if (p < 1) requestAnimationFrame(f); else done && done();
+    }
+    requestAnimationFrame(f);
+  }
+
+  let idSeq = 0;
+  function shoot(color) {
+    lastColor = color;
+    updatePreview();
+    const r = +$('size').value, a = +$('intensity').value / 100;
+    const { x, y } = randomSpot(r);
+    const e = { id: Date.now() + '-' + (idSeq++), color, x: +x.toFixed(1), y: +y.toFixed(1), r, a, t: Date.now() };
+
+    // commit to history immediately (so Ctrl+Z works even mid-flight)
+    entries = entries.slice(0, cursor);
+    entries.push(e);
+    cursor = entries.length;
+    save();
+    renderUI();
+
+    const dotNode = makeDot(e);
+    const circle = dotNode.firstChild;
+    circle.setAttribute('r', 0);
+    dotNode.style.visibility = 'hidden';
+    dotsG.appendChild(dotNode);
+
+    if (reduce) { circle.setAttribute('r', r); dotNode.style.visibility = ''; thud(color); return; }
+
+    // flight path: from outside, angled from above or the sides
+    const ang = (-170 + Math.random() * 160) * Math.PI / 180; // direction FROM target TO origin
+    const dist = 420;
+    const sx = x + Math.cos(ang) * dist, sy = y + Math.sin(ang) * dist;
+    const deg = Math.atan2(y - sy, x - sx) * 180 / Math.PI;
+    const ux = Math.cos(deg * Math.PI / 180), uy = Math.sin(deg * Math.PI / 180);
+
+    // mask hides the embedded tip
+    const mid = 'm' + e.id.replace(/[^a-z0-9]/gi, '');
+    const mask = el('mask', { id: mid, maskUnits: 'userSpaceOnUse', x: -400, y: -400, width: 1200, height: 1300 });
+    el('rect', { x: -400, y: -400, width: 1200, height: 1300, fill: '#fff' }, mask);
+    const hole = el('circle', { cx: x, cy: y, r: 0, fill: '#000' }, mask);
+    fxDefs.appendChild(mask);
+
+    const wrap = el('g', { mask: `url(#${mid})` }, fx);
+    const arrow = makeArrow(color);
+    wrap.appendChild(arrow);
+
+    // faint trail
+    const trail = el('line', { x1: sx, y1: sy, x2: sx, y2: sy, stroke: color === 'white' ? '#fff' : '#c8a25e', 'stroke-opacity': 0.18, 'stroke-width': 2, 'stroke-linecap': 'round' }, fx);
+    fx.insertBefore(trail, wrap);
+
+    whoosh();
+    const pen = 12; // how deep the tip sinks
+    animate(260, p => {
+      const k = easeIn(p);
+      const px = sx + (x + ux * pen - sx) * k, py = sy + (y + uy * pen - sy) * k;
+      arrow.setAttribute('transform', `translate(${px} ${py}) rotate(${deg})`);
+      trail.setAttribute('x2', px); trail.setAttribute('y2', py);
+      trail.setAttribute('x1', px - ux * 90 * (1 - p * 0.3)); trail.setAttribute('y1', py - uy * 90 * (1 - p * 0.3));
+      if (p > 0.92) hole.setAttribute('r', 14);
+    }, () => impact());
+
+    function impact() {
+      trail.remove();
+      thud(color);
+      // heart flinch along arrow direction
+      flinch.style.setProperty('--dx', (ux * 5).toFixed(2));
+      flinch.style.setProperty('--dy', (uy * 5).toFixed(2));
+      flinch.classList.remove('hit'); void flinch.offsetWidth; flinch.classList.add('hit');
+      stage.style.setProperty('--sx', (ux * 3).toFixed(2));
+      stage.style.setProperty('--sy', (uy * 3).toFixed(2));
+      stage.classList.remove('shake'); void stage.offsetWidth; stage.classList.add('shake');
+
+      // dot blooms (only if it wasn't undone mid-flight)
+      dotNode.style.visibility = '';
+      animate(420, p => circle.setAttribute('r', Math.max(0, r * easeOutBack(p))));
+
+      // ripple + splinters
+      const col = color === 'white' ? '#fffaf0' : '#000';
+      const ring = el('circle', { cx: x, cy: y, r: r, fill: 'none', stroke: color === 'white' ? '#fff' : '#1a0a0e', 'stroke-width': 2.5 }, fx);
+      animate(520, p => {
+        ring.setAttribute('r', r + (r * 1.6 + 26) * (1 - Math.pow(1 - p, 3)));
+        ring.setAttribute('stroke-opacity', (1 - p) * 0.8);
+        ring.setAttribute('stroke-width', 2.5 * (1 - p) + 0.3);
+      }, () => ring.remove());
+      const sparks = [];
+      for (let i = 0; i < 8; i++) {
+        const sa = deg * Math.PI / 180 + Math.PI + (Math.random() - 0.5) * 2.2;
+        sparks.push({ a: sa, d: 10 + Math.random() * 22, n: el('line', { stroke: col, 'stroke-width': 1.6, 'stroke-linecap': 'round' }, fx) });
+      }
+      animate(380, p => {
+        const q = 1 - Math.pow(1 - p, 2);
+        for (const s of sparks) {
+          const r0 = r * 0.6 + s.d * q, r1 = r0 + 6 * (1 - p);
+          s.n.setAttribute('x1', x + Math.cos(s.a) * r0); s.n.setAttribute('y1', y + Math.sin(s.a) * r0);
+          s.n.setAttribute('x2', x + Math.cos(s.a) * r1); s.n.setAttribute('y2', y + Math.sin(s.a) * r1);
+          s.n.setAttribute('stroke-opacity', 1 - p);
+        }
+      }, () => sparks.forEach(s => s.n.remove()));
+
+      // arrow quivers, then dissolves
+      const bx = x + ux * pen, by = y + uy * pen;
+      animate(650, p => {
+        const wob = Math.sin(p * Math.PI * 9) * 4 * Math.pow(1 - p, 2);
+        arrow.setAttribute('transform', `translate(${bx} ${by}) rotate(${deg + wob})`);
+      }, () => {
+        animate(380, p => wrap.setAttribute('opacity', 1 - p), () => { wrap.remove(); mask.remove(); });
+      });
+    }
+  }
+
+  // ---------- wiring ----------
+  $('btnWhite').addEventListener('click', () => shoot('white'));
+  $('btnBlack').addEventListener('click', () => shoot('black'));
+  $('undo').addEventListener('click', undo);
+  $('redo').addEventListener('click', redo);
+  ['size', 'intensity'].forEach(id => $(id).addEventListener('input', () => { updatePreview(); save(); }));
+
+  const soundBtn = $('sound');
+  const paintSound = () => { soundBtn.textContent = soundOn ? 'الصوت: يعمل' : 'الصوت: مكتوم'; soundBtn.setAttribute('aria-pressed', soundOn); };
+  soundBtn.addEventListener('click', () => { soundOn = !soundOn; paintSound(); save(); });
+
+  const clearBtn = $('clear');
+  let armT = null;
+  clearBtn.addEventListener('click', () => {
+    if (!clearBtn.classList.contains('armed')) {
+      clearBtn.classList.add('armed'); clearBtn.textContent = 'اضغط مجدداً للتأكيد';
+      armT = setTimeout(() => { clearBtn.classList.remove('armed'); clearBtn.textContent = 'مسح القلب'; }, 2600);
+      return;
+    }
+    clearTimeout(armT);
+    clearBtn.classList.remove('armed'); clearBtn.textContent = 'مسح القلب';
+    entries = []; cursor = 0; renderDots(); renderUI(); save();
+  });
+
+  document.addEventListener('keydown', ev => {
+    const k = ev.key.toLowerCase();
+    const mod = ev.ctrlKey || ev.metaKey;
+    if (mod && (k === 'z' || ev.code === 'KeyZ')) { ev.preventDefault(); ev.shiftKey ? redo() : undo(); return; }
+    if (mod && (k === 'y' || ev.code === 'KeyY')) { ev.preventDefault(); redo(); return; }
+    if (mod || ev.altKey) return;
+    if (ev.target.matches('input, textarea')) return;
+    if (ev.code === 'KeyW') { shoot('white'); }
+    else if (ev.code === 'KeyB') { shoot('black'); }
+  });
+
+  // ---------- boot ----------
+  if (!load()) {
+    // example shots so the heart opens in a working state; marked "مثال" in the history
+    const now = Date.now();
+    const seed = [['white', 16, .85], ['black', 10, .6], ['white', 8, .7], ['black', 18, .9], ['white', 12, 1]];
+    entries = seed.map(([c, r, a], i) => ({ id: 's' + i, color: c, r, a, ...randomSpot(r), t: now - (seed.length - i) * 60000, sample: true }));
+    cursor = entries.length;
+  }
+  paintSound();
+  renderDots();
+  renderUI();
+  updatePreview();
+})();
+</script>
